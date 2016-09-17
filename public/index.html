@@ -3,76 +3,40 @@
 <head>
 	<meta charset="UTF-8">
 	<title>You Are The Setting Sun</title>
+	<link rel="stylesheet" href="/css/bootstrap.css">
 
 	<style>
-		html * {
-			padding: 0 0 0 0;
-			margin: 0 0 0 0;
-		}
-
-		[v-cloak] {
-			display: none;
-		}
-
-		body {
-			justify-content: center;
-			background: #579c57;
-		}
-
-		body, ul, div, li, p, span, article, form, input, button {
-			display: flex;
-		}
-
-		li {
-			color: #eee;
-		}
-
-		input {
-			border: none;
-		}
-
-		.columns {
-			flex-direction: column;
-		}
-
-		.row {
-			flex: 1;
-		}
-
 		.container {
-			min-width: 300px;
+			width: 300px;
 		}
-
-		.message-list {
-			flex-direction: row;
-			justify-content: space-between;
-		}
-
 		.close {
 			color: #e04545;
-		}
-
-		.send {
-			background-color: #0e0;
-			border: none;
-			padding: 10px;
-		}
-
-		.message-form {
-			padding-top: 10px;
-		}
+]		}
+		.message {
+=		}
 	</style>
 </head>
 <body>
 	
-	<div class="container columns">
-		<ul class="message-list" v-for="message in messages" v-cloak>
-			<li class="list-item">{{ message.message }}</li>
-			<span @click="removeMessage(message)" class="close">X</span>
-		</ul>
-		<form class="message-form">
-			<input type="text" v-model="newMessage">
-			<button @click.prevent="sendMessage()" class="send">Send</button>
+	<div class="container">
+		<div class="list-group" v-cloak>
+			<div v-for="message in messages" class="list-group-item">
+				<span @click="removeMessage(message)" class="close glyphicon glyphicon-remove"></span>
+				<span class="message">{{ message.message }}</span>
+			</div>
+		</div>
+
+		<form @submit.prevent="sendMessage()" class="form-inline">
+			<div class="row">
+				<div class="form-group col-sm-12">
+					<div class="input-group col-sm-12">
+
+						<input  type="text" v-model="newMessage" class="form-control" placeholder="What now?">
+						<div @click.prevent="sendMessage()" class="input-group-addon bg-primary">Send</div>
+
+					</div>
+				</div>
+			</div>
 		</form>
 	</div>
 
@@ -90,7 +54,7 @@
 			},
 
 			ready: function() {
-				this.socket = io.connect('http://45.55.246.51/');
+				this.socket = io.connect('localhost:8080');
 				this.socket.on('connected', function(data) {
 					this.messages = data.messages;
 				}.bind(this));
@@ -110,6 +74,7 @@
 				registerSocketEvents: function() {
 					this.socket.on('message-saved', function (message) {
 						this.messages.push(message);
+						this.newMessage = '';
 					}.bind(this));
 
 					this.socket.on('message-removed', function(removedMessage) {

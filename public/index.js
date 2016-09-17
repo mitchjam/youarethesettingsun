@@ -1,11 +1,12 @@
+var fs = require('fs');
 var path = require('path');
-var express = require('express');
+var express = require(modulePath('express'));
 var app = express();
-var bodyParser = require('body-parser');
-var mongodb = require('mongodb');
+var bodyParser = require(modulePath('body-parser'));
+var mongodb = require(modulePath('mongodb'));
 var mongoClient = mongodb.MongoClient;
 
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(__dirname));
 app.use(bodyParser.urlencoded({extended: true}));
 
 // Connect to MongoDB
@@ -16,7 +17,7 @@ function startServer(error, db) {
   		throw error;
 	}
 
-	var server = app.listen(80);
+	var server = app.listen(8080);
 
 	// var server = http.createServer(app);
 	var io = require('socket.io').listen(server);
@@ -53,5 +54,22 @@ function startServer(error, db) {
 app.get('/', function (req, res) {
   res.sendFile(__dirname + '/index.html');
 });
+
+function modulePath(module) {
+	var	modulePath;
+	try {
+		modulePath = '../node_modules/' + module + '/index.js';
+	  	fs.statSync(modulePath);
+	} catch(e) {
+	  	try {
+	  		modulePath = '../node_modules/' + module + '/bin/' + module + '.js';
+	      	fs.statSync(transcriptionDirectory);
+	    } catch(e) {
+	      	modulePath = '../node_modules/' + module + '/bin/' + module;
+	    }
+	}
+
+	return modulePath;
+}
 
 
