@@ -1,0 +1,27 @@
+{
+  "name": "isabell",
+  "version": "1.0.0",
+  "description": "you are the setting sun",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mitchjam/youarethesettingsun.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mitchjam/youarethesettingsun/issues"
+  },
+  "homepage": "https://github.com/mitchjam/youarethesettingsun#readme",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "mongodb": "^2.2.9",
+    "nodemon": "^1.10.2",
+    "socket.io": "^1.4.8",
+    "vue": "^1.0.26"
+  }
+}
