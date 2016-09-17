@@ -16,7 +16,7 @@ function startServer(error, db) {
   		throw error;
 	}
 
-	var server = app.listen(8080);
+	var server = app.listen(80);
 
 	// var server = http.createServer(app);
 	var io = require('socket.io').listen(server);
@@ -47,14 +47,6 @@ function startServer(error, db) {
 	  		});
 	  	});
 	});
-
-	
-	// db.collection('messages').find().toArray(function(err, result) {
-	//   	if (err) {
-	//       throw err;
-	//   	}
-	//   	console.log(result);
-	// });
 }
 
 // Routes
