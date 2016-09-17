@@ -2,11 +2,16 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>You Are The Setting Sun</title>
+	<title>Australia</title>
 	<link rel="stylesheet" href="/css/bootstrap.css">
 
 	<style>
-		.container {
+		/*body {
+			background-image: url('/img/LO5A2837.JPG');
+			background-size: cover;
+		}*/
+		.messaging {
+			margin: auto;
 			width: 300px;
 		}
 		.close {
@@ -17,25 +22,27 @@
 <body>
 	
 	<div class="container">
-		<div class="list-group" v-cloak>
-			<div v-for="message in messages" class="list-group-item">
-				<span @click="removeMessage(message)" class="close glyphicon glyphicon-remove"></span>
-				<span>{{ message.message }}</span>
-			</div>
-		</div>
-
-		<form @submit.prevent="sendMessage()" class="form-inline">
-			<div class="row">
-				<div class="form-group col-sm-12">
-					<div class="input-group col-sm-12">
-
-						<input  type="text" v-model="newMessage" class="form-control" placeholder="What now?">
-						<div @click.prevent="sendMessage()" class="input-group-addon bg-primary">Send</div>
-
-					</div>
+		<div class="messaging">
+			<div class="list-group" v-cloak>
+				<div v-for="message in messages" class="list-group-item">
+					<span @click="removeMessage(message)" class="close glyphicon glyphicon-remove"></span>
+					<span>{{ message.message }}</span>
 				</div>
 			</div>
-		</form>
+		
+			<form @submit.prevent="sendMessage()" class="form-inline">
+				<div class="row">
+					<div class="form-group col-sm-12">
+						<div class="input-group col-sm-12">
+		
+							<input  type="text" v-model="newMessage" class="form-control" placeholder="What now?">
+							<div @click.prevent="sendMessage()" class="input-group-addon bg-primary">Send</div>
+		
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
 	</div>
 
 	
@@ -54,8 +61,8 @@
 
 			ready: function() {
 				this.$http.get('/server')
-					.then(function(res) {
-						var server = JSON.parse(res.data);
+					.then(function(response) {
+						var server = JSON.parse(response.data);
 						this.socket = io.connect(server.domain + ':' + server.port);
 						}.bind(this))
 					.then(function() {
