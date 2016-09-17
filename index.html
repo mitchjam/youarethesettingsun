@@ -90,7 +90,7 @@
 			},
 
 			ready: function() {
-				this.socket = io.connect('localhost:80');
+				this.socket = io.connect('http://45.55.246.51/');
 				this.socket.on('connected', function(data) {
 					this.messages = data.messages;
 				}.bind(this));
