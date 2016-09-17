@@ -6,8 +6,22 @@ var bodyParser = require(modulePath('body-parser'));
 var mongodb = require(modulePath('mongodb'));
 var mongoClient = mongodb.MongoClient;
 
+var env = require('../.env.js');
+
 app.use(express.static(__dirname));
 app.use(bodyParser.urlencoded({extended: true}));
+
+
+// Routes
+app.get('/', function (req, res) {
+  res.sendFile(__dirname + '/index.html');
+});
+
+app.get('/server', function(req, res) {
+	res.send(JSON.stringify(env));
+});
+// End Routes
+
 
 // Connect to MongoDB
 mongoClient.connect('mongodb://localhost:27017/isabell', startServer);
@@ -17,9 +31,8 @@ function startServer(error, db) {
   		throw error;
 	}
 
-	var server = app.listen(8080);
+	var server = app.listen(env.port);
 
-	// var server = http.createServer(app);
 	var io = require('socket.io').listen(server);
 
 	// Socket events
@@ -48,12 +61,7 @@ function startServer(error, db) {
 	  		});
 	  	});
 	});
-}
-
-// Routes
-app.get('/', function (req, res) {
-  res.sendFile(__dirname + '/index.html');
-});
+};
 
 function modulePath(module) {
 	var	modulePath;

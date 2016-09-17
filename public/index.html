@@ -11,9 +11,7 @@
 		}
 		.close {
 			color: #e04545;
-]		}
-		.message {
-=		}
+		}
 	</style>
 </head>
 <body>
@@ -22,7 +20,7 @@
 		<div class="list-group" v-cloak>
 			<div v-for="message in messages" class="list-group-item">
 				<span @click="removeMessage(message)" class="close glyphicon glyphicon-remove"></span>
-				<span class="message">{{ message.message }}</span>
+				<span>{{ message.message }}</span>
 			</div>
 		</div>
 
@@ -43,6 +41,7 @@
 	
 	<script src="/socket.io/socket.io.js"></script>
 	<script src="/js/vue.js"></script>
+	<script src="/js/vue-resource.js"></script>
 	<script>
 		var vue = new Vue({
 			el: 'body',
@@ -54,16 +53,22 @@
 			},
 
 			ready: function() {
-				this.socket = io.connect('localhost:8080');
-				this.socket.on('connected', function(data) {
-					this.messages = data.messages;
-				}.bind(this));
-
-				this.registerSocketEvents();
+				this.$http.get('/server')
+					.then(function(res) {
+						var server = JSON.parse(res.data);
+						this.socket = io.connect(server.domain + ':' + server.port);
+						}.bind(this))
+					.then(function() {
+						this.registerSocketEvents();
+						}.bind(this));
 			},
 
 			methods: {
 				sendMessage: function() {
+					if (this.newMessage.trim().length == 0) {
+						return;
+					}
+
 					this.socket.emit('new-message', {message: this.newMessage});
 				},
 
@@ -72,6 +77,10 @@
 				},
 
 				registerSocketEvents: function() {
+					this.socket.on('connected', function(data) {
+						this.messages = data.messages;
+					}.bind(this));
+
 					this.socket.on('message-saved', function (message) {
 						this.messages.push(message);
 						this.newMessage = '';
