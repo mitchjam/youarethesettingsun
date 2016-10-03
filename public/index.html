@@ -65,6 +65,8 @@
 		}
 		textarea {
 			font-size: .8em;
+			margin: 0 0 0 0;
+			padding: 5px;
 		}
 		[v-cloak] {
 			display: none;
@@ -149,9 +151,9 @@
 		}
 		.notebook {
 			width: 75vw;
+			height: 90vh;
 		}
 		.note-list {
-			margin-top: 10px;
 			width: 30%;
 			color: #fff;
 		}
@@ -163,10 +165,19 @@
 		}
 		.new-note {
 			justify-content: center;
-			width: 70%
+			width: 70%;
+		}
+		.new-note-field {
+			flex: 6;
+		}
+		.new-note .next {
+			min-height: 50px;
 		}
 		.full {
 			width: 100%;
+		}
+		.high {
+			height: 100%;
 		}
 
 		/* Media queries */
@@ -182,8 +193,13 @@
 				flex-direction: column;
 			}
 			.note-list {
-				max-height: 30vh;
+				max-height: 30%;
 				overflow: scroll;
+				width: 100%;
+			}
+			.new-note {
+				height: 70%;
+				width: 100%;
 			}
 		} 
 	</style>

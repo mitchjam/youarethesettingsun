@@ -18,8 +18,8 @@
 		
 			
 			<div class="flex columns new-note">
-				<h2 class="full">
-					<textarea class="full" v-model="newMessage" placeholder="Tell me more..." rows="15"></textarea>
+				<h2 class="full new-note-field">
+					<textarea class="full high" v-model="newMessage" placeholder="Tell me more..."></textarea>
 				</h2>
 				
 				<div @click="sendMessage()" class="next flex">
