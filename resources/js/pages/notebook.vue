@@ -44,7 +44,7 @@
 		},
 
 		created() {
-			// this.Auth.check();
+			this.Auth.check();
 		},
 
 		ready() {

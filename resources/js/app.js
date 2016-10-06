@@ -2,7 +2,7 @@ var Vue = window.Vue = require('vue');
 var VueResource = require('vue-resource');
 var VueRouter = require('vue-router');
 var Auth = window.Auth = require('./auth');
-var Cookie = require('./cookie');
+var CookieJar = require('./cookie');
 
 Vue.use(VueResource);
 Vue.use(VueRouter);

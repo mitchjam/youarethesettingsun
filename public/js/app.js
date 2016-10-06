@@ -14787,7 +14787,7 @@ var Vue = window.Vue = require('vue');
 var VueResource = require('vue-resource');
 var VueRouter = require('vue-router');
 var Auth = window.Auth = require('./auth');
-var Cookie = require('./cookie');
+var CookieJar = require('./cookie');
 
 Vue.use(VueResource);
 Vue.use(VueRouter);
@@ -14863,24 +14863,26 @@ router.start(App, '#app');
 'use strict';
 
 module.exports = {
+	login: function login() {
+		CookieJar.set('logged_in', true, 3600);
+	},
+	logout: function logout() {
+		CookieJar.set('logged_in', false, 36000);
+	},
 	check: function check() {
-		var _this = this;
-
-		this.Vue.$http.post('/api/its-me-isabell', { username: this.username, password: this.password }).then(function () {
-			return;
-		}).catch(function () {
-			_this.Vue.$router.go('/');
-		});
+		if (!CookieJar.get('logged_in')) {
+			this.Vue.$router.go('/');
+		};
 	},
 	init: function init(Vue) {
 		this.Vue = Vue;
 		return this;
 	},
 	userCompletedStep: function userCompletedStep(stepName) {
-		var _this2 = this;
+		var _this = this;
 
 		return this.Vue.$http.post('/auth/' + stepName).catch(function (error) {
-			_this2.Vue.$router.go('/');
+			_this.Vue.$router.go('/');
 		});
 	}
 };
@@ -14904,22 +14906,22 @@ module.exports = {
 |*|
 |*|  Syntaxes:
 |*|
-|*|  * docCookies.setItem(name, value[, end[, path[, domain[, secure]]]])
-|*|  * docCookies.getItem(name)
-|*|  * docCookies.removeItem(name[, path[, domain]])
-|*|  * docCookies.hasItem(name)
+|*|  * docCookies.set(name, value[, end[, path[, domain[, secure]]]])
+|*|  * docCookies.get(name)
+|*|  * docCookies.remove(name[, path[, domain]])
+|*|  * docCookies.has(name)
 |*|  * docCookies.keys()
 |*|
 \*/
 
-module.exports = {
-  getItem: function getItem(sKey) {
+var docCookies = {
+  get: function get(sKey) {
     if (!sKey) {
       return null;
     }
     return decodeURIComponent(document.cookie.replace(new RegExp("(?:(?:^|.*;)\\s*" + encodeURIComponent(sKey).replace(/[\-\.\+\*]/g, "\\$&") + "\\s*\\=\\s*([^;]*).*$)|^.*$"), "$1")) || null;
   },
-  setItem: function setItem(sKey, sValue, vEnd, sPath, sDomain, bSecure) {
+  set: function set(sKey, sValue, vEnd, sPath, sDomain, bSecure) {
     if (!sKey || /^(?:expires|max\-age|path|domain|secure)$/i.test(sKey)) {
       return false;
     }
@@ -14940,14 +14942,14 @@ module.exports = {
     document.cookie = encodeURIComponent(sKey) + "=" + encodeURIComponent(sValue) + sExpires + (sDomain ? "; domain=" + sDomain : "") + (sPath ? "; path=" + sPath : "") + (bSecure ? "; secure" : "");
     return true;
   },
-  removeItem: function removeItem(sKey, sPath, sDomain) {
-    if (!this.hasItem(sKey)) {
+  remove: function remove(sKey, sPath, sDomain) {
+    if (!this.has(sKey)) {
       return false;
     }
     document.cookie = encodeURIComponent(sKey) + "=; expires=Thu, 01 Jan 1970 00:00:00 GMT" + (sDomain ? "; domain=" + sDomain : "") + (sPath ? "; path=" + sPath : "");
     return true;
   },
-  hasItem: function hasItem(sKey) {
+  has: function has(sKey) {
     if (!sKey) {
       return false;
     }
@@ -15054,8 +15056,8 @@ module.exports = {
 			var _this = this;
 
 			this.$http.post('/api/its-me-isabell', { username: this.username, password: this.password }).then(function () {
-				_this.Auth.username = _this.username;
-				_this.Auth.password = _this.password;
+				_this.Auth.login();
+
 				_this.$router.go(_this.next);
 			}).catch(function () {
 				return;
@@ -15131,7 +15133,7 @@ module.exports = {
 		};
 	},
 	created: function created() {
-		// this.Auth.check();
+		this.Auth.check();
 	},
 	ready: function ready() {
 		var _this = this;

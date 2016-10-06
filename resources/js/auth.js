@@ -1,12 +1,16 @@
 module.exports = {
+	login() {
+		CookieJar.set('logged_in', true, 3600);
+	},
+
+	logout() {
+		CookieJar.set('logged_in', false, 36000);
+	},
+
 	check() {
-		this.Vue.$http.post('/api/its-me-isabell', {username: this.username, password: this.password})
-			.then(() => {
-				return;
-			})
-			.catch(() => {
-				this.Vue.$router.go('/');
-			});
+		if (! CookieJar.get('logged_in')) {
+			this.Vue.$router.go('/');
+		};
 	},
 
 	init(Vue) {

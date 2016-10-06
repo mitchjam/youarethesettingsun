@@ -14,20 +14,20 @@
 |*|
 |*|  Syntaxes:
 |*|
-|*|  * docCookies.setItem(name, value[, end[, path[, domain[, secure]]]])
-|*|  * docCookies.getItem(name)
-|*|  * docCookies.removeItem(name[, path[, domain]])
-|*|  * docCookies.hasItem(name)
+|*|  * docCookies.set(name, value[, end[, path[, domain[, secure]]]])
+|*|  * docCookies.get(name)
+|*|  * docCookies.remove(name[, path[, domain]])
+|*|  * docCookies.has(name)
 |*|  * docCookies.keys()
 |*|
 \*/
 
-module.exports = {
-  getItem: function (sKey) {
+var docCookies = {
+  get: function (sKey) {
     if (!sKey) { return null; }
     return decodeURIComponent(document.cookie.replace(new RegExp("(?:(?:^|.*;)\\s*" + encodeURIComponent(sKey).replace(/[\-\.\+\*]/g, "\\$&") + "\\s*\\=\\s*([^;]*).*$)|^.*$"), "$1")) || null;
   },
-  setItem: function (sKey, sValue, vEnd, sPath, sDomain, bSecure) {
+  set: function (sKey, sValue, vEnd, sPath, sDomain, bSecure) {
     if (!sKey || /^(?:expires|max\-age|path|domain|secure)$/i.test(sKey)) { return false; }
     var sExpires = "";
     if (vEnd) {
@@ -46,12 +46,12 @@ module.exports = {
     document.cookie = encodeURIComponent(sKey) + "=" + encodeURIComponent(sValue) + sExpires + (sDomain ? "; domain=" + sDomain : "") + (sPath ? "; path=" + sPath : "") + (bSecure ? "; secure" : "");
     return true;
   },
-  removeItem: function (sKey, sPath, sDomain) {
-    if (!this.hasItem(sKey)) { return false; }
+  remove: function (sKey, sPath, sDomain) {
+    if (!this.has(sKey)) { return false; }
     document.cookie = encodeURIComponent(sKey) + "=; expires=Thu, 01 Jan 1970 00:00:00 GMT" + (sDomain ? "; domain=" + sDomain : "") + (sPath ? "; path=" + sPath : "");
     return true;
   },
-  hasItem: function (sKey) {
+  has: function (sKey) {
     if (!sKey) { return false; }
     return (new RegExp("(?:^|;\\s*)" + encodeURIComponent(sKey).replace(/[\-\.\+\*]/g, "\\$&") + "\\s*\\=")).test(document.cookie);
   },

@@ -31,8 +31,8 @@
 			nextPage() {
 				this.$http.post('/api/its-me-isabell', {username: this.username, password: this.password})
 					.then(() => {
-						this.Auth.username = this.username;
-						this.Auth.password = this.password;
+						this.Auth.login();
+
 						this.$router.go(this.next);
 					})
 					.catch(() => {
