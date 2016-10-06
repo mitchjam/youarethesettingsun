@@ -14863,12 +14863,6 @@ router.start(App, '#app');
 'use strict';
 
 module.exports = {
-	login: function login() {
-		CookieJar.set('logged_in', true, 3600);
-	},
-	logout: function logout() {
-		CookieJar.set('logged_in', false, 36000);
-	},
 	check: function check() {
 		if (!CookieJar.get('logged_in')) {
 			this.Vue.$router.go('/');
@@ -15056,7 +15050,7 @@ module.exports = {
 			var _this = this;
 
 			this.$http.post('/api/its-me-isabell', { username: this.username, password: this.password }).then(function () {
-				_this.Auth.login();
+				CookieJar.set('logged_in', true, 3600);
 
 				_this.$router.go(_this.next);
 			}).catch(function () {

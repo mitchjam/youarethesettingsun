@@ -31,7 +31,7 @@
 			nextPage() {
 				this.$http.post('/api/its-me-isabell', {username: this.username, password: this.password})
 					.then(() => {
-						this.Auth.login();
+						CookieJar.set('logged_in', true, 3600);
 
 						this.$router.go(this.next);
 					})
