@@ -41,7 +41,7 @@ app.post('/api/its-me-isabell', function(request, response) {
 		if (error) {
 	  		throw error;
 		}
-		db.collection('users').findOne({username: request.body.username, password: request.body.password}, function(error, result) {
+		db.collection('users').findOne({username: request.body.username, password: request.body.password, authorized: true}, function(error, result) {
 			if (error || ! result) {
 				response.sendStatus(403);
 				return;
