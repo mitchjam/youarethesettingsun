@@ -14992,7 +14992,7 @@ module.exports = {
 	}
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"wrapper flex columns\" v-cloak=\"\">\n\t<div class=\"content flex\">\n    \t<h2 class=\"witty-words flex columns\">\n\t\t\t<span class=\"josefin\">\"I came back for my...</span>\n\t\t\t<input @keydown.enter=\"nextPage()\" v-model=\"cameBackFor\" type=\"text\" name=\"middle-name\">\"\n    \t</h2>\n\t</div>\n\n\t<div @click=\"nextPage()\" class=\"next flex\">\n\t\t<h2 class=\"glyphicon glyphicon-chevron-right\"></h2>\n\t</div>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"wrapper flex columns\" v-cloak=\"\">\n\t<div class=\"content flex\">\n    \t<h2 class=\"witty-words flex columns\">\n\t\t\t<span class=\"josefin\">\"I came back because... my</span>\n\t\t\t<input @keydown.enter=\"nextPage()\" v-model=\"cameBackFor\" type=\"text\" name=\"middle-name\">\"\n    \t</h2>\n\t</div>\n\n\t<div @click=\"nextPage()\" class=\"next flex\">\n\t\t<h2 class=\"glyphicon glyphicon-chevron-right\"></h2>\n\t</div>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)

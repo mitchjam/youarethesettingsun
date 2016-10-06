@@ -2,7 +2,7 @@
 	<div  class="wrapper flex columns" v-cloak>
 		<div class="content flex">
 	    	<h2 class="witty-words flex columns">
-				<span class="josefin">"I came back for my...</span>
+				<span class="josefin">"I came back because... my</span>
 				<input @keydown.enter="nextPage()" v-model="cameBackFor" type="text" name="middle-name">"
 	    	</h2>
 		</div>
